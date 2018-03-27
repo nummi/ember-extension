@@ -28,13 +28,13 @@
 
 .dropdown__arrow {
   position: absolute;
-  right: 4px;
+  right: 3px;
   top: 7px;
   background-image: url(images/arrow_down.svg);
+  background-repeat: no-repeat;
   background-size: 100%;
-  opacity: 0.7;
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   display: inline-block;
   pointer-events: none;
 }
