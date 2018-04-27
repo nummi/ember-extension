@@ -39,15 +39,17 @@ $mixin-left-padding: 22px;
 .mixin__name:before {
   position: absolute;
   top: 5px;
-  left: 7px;
+  left: 6px;
   content: "\25B6";
   color: #737373;
   margin-right: 5px;
   font-size: 90%;
+  transform: rotate(0deg);
+  transition: all 0.1s;
 }
 
   .mixin_state_expanded .mixin__name:before {
-    content: "\25BC";
+    transform: rotate(90deg);
   }
 
 .mixin__properties {
@@ -70,12 +72,62 @@ $mixin-left-padding: 22px;
   min-height: 19px;
 }
 
+.mixin__property-dependent-keys {
+  position: relative;
+  margin-bottom: 5px;
+  margin-top: 2px;
+  padding-top: 2px;
+
+  & > svg {
+    position: absolute;
+    top: -4px;
+    left: 28px;
+    width: 19px;
+    height: 10px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+.mixin__property-dependent-key {
+  position: relative;
+  margin-bottom: 2px;
+  margin-left: 55px;
+  font-size: 11px;
+  color: #555;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -9px;
+    width: 1px;
+    height: 8px;
+    background-color: #888;
+  }
+}
+
+.mixin__property-dependent-key:first-child::before { display: none; }
+
+.mixin__property-dependent-key svg {
+  position: absolute;
+  bottom: 2px;
+  left: -13px;
+
+  ellipse {
+    stroke: #888;
+    fill: #fff;
+  }
+}
+
 /* Errors */
 
 .mixin__error {
   margin-right: 3px;
   padding: 0px 20px;
-  color: red;
 }
 
 .mixin__name--errors {
@@ -89,6 +141,9 @@ $mixin-left-padding: 22px;
 /* Buttons */
 
 .mixin__property {
+  padding-top: 1px;
+  padding-bottom: 1px;
+
   button {
     border: none;
     background: none;
@@ -96,6 +151,22 @@ $mixin-left-padding: 22px;
     padding: 0;
   }
 
+  .mixin__cp-toggle {
+    width: $mixin-left-padding;
+    outline: none;
+
+    svg {
+      transition: all 0.2s;
+      transform:
+        rotate(-90deg)
+        translateY(1px);
+    }
+  }
+  .mixin__cp-toggle--expanded {
+    svg {
+      transform: rotate(0deg);
+    }
+  }
   .pad { width: $mixin-left-padding; }
   .mixin__calc-btn {
     width: $mixin-left-padding;
@@ -115,12 +186,37 @@ $mixin-left-padding: 22px;
   }
 }
 
+.mixin__prop-type-button {
+  width: $mixin-left-padding;
+}
+
+.mixin__prop-type-icon {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 17px;
+  font-family: 'SF Mono', Menlo, Monaco, monospace;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mixin__prop-type-icon--cp {
+  background-color: #cd61a7;
+}
+.mixin__prop-type-icon--p {
+  background-color: #b3b3b3;
+}
+
 .mixin__property-overridden-by {
   display: none;
 }
 
 .mixin__property-name {
-  color: #909;
+  color: #333;
 }
 
 .mixin__property-value {
@@ -138,6 +234,10 @@ $mixin-left-padding: 22px;
   box-shadow: 2px 2px 2px #888;
   /*box-shadow: none;*/
   outline: none;
+}
+
+.mixin__property-value-cp {
+  color: #9c0f9c;
 }
 
 
@@ -199,4 +299,3 @@ $mixin-left-padding: 22px;
     opacity: 0.5;
   }
 }
-

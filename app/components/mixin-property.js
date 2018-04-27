@@ -30,6 +30,7 @@ export default Component.extend({
   isArray: equal('model.value.type', 'type-array'),
 
   isDate: equal('model.value.type', 'type-date'),
+  isDepsExpanded: false,
 
   _parseTextValue(value) {
     let parsedValue;
@@ -48,6 +49,10 @@ export default Component.extend({
   },
 
   actions: {
+    toggleDeps() {
+      this.toggleProperty('isDepsExpanded');
+    },
+
     valueClick() {
       if (this.get('isEmberObject') || this.get('isArray')) {
         this.get('mixin').send('digDeeper', this.get('model'));

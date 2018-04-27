@@ -29,25 +29,70 @@
             {{#mixin-property model=prop mixin=mixin as |property|}}
               <li class="{{if property.model.overridden 'mixin__property_state_overridden'}} mixin__property js-object-property">
                 {{#if property.model.value.computed}}
-                  <button class="mixin__calc-btn {{if property.isCalculated 'mixin__calc-btn--calculated'}} js-calculate" {{action "calculate" property.model bubbles=false target=mixin}}><img src="assets/svg/calculate.svg"></button>
+                  <button class="mixin__cp-toggle {{if property.isDepsExpanded "mixin__cp-toggle--expanded"}}" {{action "toggleDeps" target=property}}>
+                    {{svg-jar "disclosure-triangle"
+                      title="Toggle computed properties"
+                      width="9px" height="9px"
+                    }}
+                  </button>
+                  <span class="mixin__prop-type-button" {{action "toggleDeps" target=property}}>
+                    <span
+                      class="mixin__prop-type-icon mixin__prop-type-icon--cp"
+                      title="Computed Property">
+                      C
+                    </span>
+                  </span>
                 {{else}}
                   <span class="pad"></span>
+                  <span class="mixin__prop-type-button">
+                    <span
+                      class="mixin__prop-type-icon mixin__prop-type-icon--p"
+                      title="Property">
+                      P
+                    </span>
+                  </span>
                 {{/if}}
-                <span class="mixin__property-name js-object-property-name">{{property.model.name}}</span><span class='mixin__property-value-separator'>: </span>
+                <span class="mixin__property-name js-object-property-name">{{property.model.name}}</span>
+                <span class='mixin__property-value-separator'>: </span>
                 {{#unless property.isEdit}}
-                  <span {{action "valueClick" property.model target=property}} class="{{property.model.value.type}} mixin__property-value js-object-property-value">{{property.model.value.inspect}}</span>
+                  <span {{action "valueClick" property.model target=property}}
+                    class="{{if property.model.value.computed "mixin__property-value-cp"}} {{property.model.value.type}} mixin__property-value js-object-property-value">{{property.model.value.inspect}}</span>
                 {{else}}
                   {{#unless property.isDate}}
                     {{property-field value=property.txtValue finished-editing="finishedEditing" save-property="saveProperty" propertyComponent=property
                      class="mixin__property-value-txt js-object-property-value-txt"}}
                   {{else}}
                     {{date-property-field value=property.dateValue format="YYYY-MM-DD"
-                     class="mixin__property-value-txt js-object-property-value-date" onSelection=(action "dateSelected" target=property) cancel=(action "finishedEditing" target=property)}}
+                                          class="mixin__property-value-txt js-object-property-value-date"
+                                          onSelection=(action "dateSelected"
+                                          target=property)
+                                          cancel=(action "finishedEditing" target=property)}}
                   {{/unless}}
                 {{/unless}}
                 <span class="mixin__property-overridden-by">(Overridden by {{property.model.overridden}})</span>
                 <button class="mixin__send-btn send-to-console js-send-to-console-btn" {{action "sendToConsole" property.model target=mixin}}><img src="assets/images/send.png" title="Send to console"></button>
               </li>
+              {{#if (and property.model.value.computed property.isDepsExpanded)}}
+                <li class="mixin__property-dependent-keys">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="10">
+                    <path fill="none" stroke="#888" d="M.5 0v1.6c0 2.1 1.7 3.896 3.7 3.896h10.5c2.1 0 3.815 1.704 3.815 3.804v.7"/>
+                  </svg>
+                  <ul>
+                    <li class="mixin__property-dependent-key">
+                      <svg width="9" height="9">
+                        <ellipse cx="4.5" cy="4.5" rx="3.5" ry="3.5" stroke-width="1"></ellipse>
+                      </svg>
+                      visible.name
+                    </li>
+                    <li class="mixin__property-dependent-key">
+                      <svg width="9" height="9">
+                        <ellipse cx="4.5" cy="4.5" rx="3.5" ry="3.5" stroke-width="1"></ellipse>
+                      </svg>
+                      visible
+                    </li>
+                  </ul>
+                </li>
+              {{/if}}
             {{/mixin-property}}
           {{else}}
             <li class="mixin__property">No Properties</li>
