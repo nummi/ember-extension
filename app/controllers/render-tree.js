@@ -85,7 +85,53 @@ export default Controller.extend({
     }
     let regExp = new RegExp(search);
     return !!recursiveMatch(item, regExp);
-  }).property('model.@each.name', 'search')
+  }).property('model.@each.name', 'search'),
+
+  rows: computed('filtered.[]', function() {
+    // return [
+    //   {
+    //     name: 'name!',
+    //     timestamp: 'timestamp!',
+    //     'render-time': 'render-time!'
+    //   },
+    //   {
+    //     name: 'name!',
+    //     timestamp: 'timestamp!',
+    //     'render-time': 'render-time!',
+    //     children: [
+    //       {
+    //         name: 'name!!',
+    //         timestamp: 'timestamp!!',
+    //         'render-time': 'render-time!!',
+    //       },
+    //       {
+    //         name: 'name!!',
+    //         timestamp: 'timestamp!!',
+    //         'render-time': 'render-time!!',
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     name: 'name!',
+    //     timestamp: 'timestamp!',
+    //     'render-time': 'render-time!',
+    //     children: [
+    //       {
+    //         name: 'name!!',
+    //         timestamp: 'timestamp!!',
+    //         'render-time': 'render-time!!',
+    //       },
+    //       {
+    //         name: 'name!!',
+    //         timestamp: 'timestamp!!',
+    //         'render-time': 'render-time!!',
+    //       }
+    //     ]
+    //   },
+    // ];
+    const items = this.get('filtered');
+    return items;
+  })
 });
 
 function recursiveMatch(item, regExp) {

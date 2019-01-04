@@ -144,15 +144,62 @@ $white: #ffffff;
     width: 24px;
   }
 
+  .et-toggle-collapse input[type=checkbox] {
+    height: 100%;
+    left: 0;
+    opacity: 0.001;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .et-toggle-collapse input[type=checkbox] + * {
+    display: block;
+    width: 100%;
+  }
+
+  .et-toggle-collapse input[type=checkbox]:checked + span:before,
+  .et-toggle-collapse:checked:before {
+    color: var(--base14);
+    transform: rotate(-90deg);
+  }
+
+  .et-toggle-collapse input[type=checkbox] + span:before,
+  .et-toggle-collapse:empty:before {
+    content: '\25be';
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+  }
+
   .et-depth-placeholder:not(.depth-0) {
     box-sizing: content-box;
     height: 100%;
     width: 24px;
   }
 
-  .et-depth-indent.depth-1 {
-    padding-left: 16px;
-  }
+  $depth: 16px;
+  .et-depth-indent.depth-1 { padding-left: $depth; }
+  .et-depth-indent.depth-2 { padding-left: $depth * 2; }
+  .et-depth-indent.depth-3 { padding-left: $depth * 3; }
+  .et-depth-indent.depth-4 { padding-left: $depth * 4; }
+  .et-depth-indent.depth-5 { padding-left: $depth * 5; }
+  .et-depth-indent.depth-6 { padding-left: $depth * 6; }
+  .et-depth-indent.depth-7 { padding-left: $depth * 7; }
+  .et-depth-indent.depth-8 { padding-left: $depth * 8; }
+  .et-depth-indent.depth-9 { padding-left: $depth * 9; }
+  .et-depth-indent.depth-10 { padding-left: $depth * 10; }
+  .et-depth-indent.depth-11 { padding-left: $depth * 11; }
+  .et-depth-indent.depth-12 { padding-left: $depth * 12; }
+  .et-depth-indent.depth-13 { padding-left: $depth * 13; }
+  .et-depth-indent.depth-14 { padding-left: $depth * 14; }
+  .et-depth-indent.depth-15 { padding-left: $depth * 15; }
+  .et-depth-indent.depth-16 { padding-left: $depth * 16; }
+  .et-depth-indent.depth-17 { padding-left: $depth * 17; }
+  .et-depth-indent.depth-18 { padding-left: $depth * 18; }
+  .et-depth-indent.depth-19 { padding-left: $depth * 19; }
+  .et-depth-indent.depth-20 { padding-left: $depth * 20; }
 
   .et-cell-content {
     flex: 1;

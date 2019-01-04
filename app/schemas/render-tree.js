@@ -1,20 +1,14 @@
 /**
  * Render tree schema.
  */
-export default {
-  columns: [{
-    id: 'name',
-    name: 'Name',
-    visible: true
-  }, {
-    id: 'render-time',
-    name: 'Render time',
-    visible: true,
-    numeric: true
-  }, {
-    id: 'timestamp',
-    name: 'Timestamp',
-    visible: true,
-    numeric: true
-  }]
-};
+export default [{
+  valuePath: 'name',
+  name: 'Name'
+}, {
+  valuePath: 'render-time',
+  name: 'Render time'
+}, {
+  valuePath: 'timestamp',
+  name: 'Timestamp'
+}
+];
