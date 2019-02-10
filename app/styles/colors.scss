@@ -37,6 +37,9 @@
   --pill-bg: rgba(0, 0, 0, 0.1);
   --pill-bg-active: rgba(255, 255, 255, 0.3);
   --warning-text: #735c0f;
+  --search-highlight-text: rgb(51, 51, 51);
+  --search-highlight: rgb(255, 255, 84);
+  --search-highlight-current: rgb(241, 155, 74);  
 }
 
 .theme--dark {
@@ -78,4 +81,7 @@
   --pill-bg: rgba(255, 255, 255, 0.2);
   --pill-bg-active: rgba(255, 255, 255, 0.3);
   --warning-text: #8ca3f0;
+  --search-highlight-text: rgb(51, 51, 51);
+  --search-highlight: rgb(251, 168, 90);
+  --search-highlight-current: rgb(255, 255, 84);
 }

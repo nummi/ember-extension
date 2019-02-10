@@ -1,4 +1,6 @@
 .component-tree-item {
+  padding-top: 1px;
+  padding-bottom: 1px;
   align-items: center;
   border-radius: 4px;
   color: var(--base12);
@@ -108,4 +110,16 @@
       opacity: 0.65;
     }
   }
+}
+
+.component-tree-item .highlight {
+  border-radius: 2px;
+  color: var(--search-highlight-text);
+  background: var(--search-highlight);
+}
+
+.component-tree-item__tag--current-highlight .highlight {
+  font-weight: bold;
+  background: var(--search-highlight-current);
+  animation: scale 300ms ease-out;
 }

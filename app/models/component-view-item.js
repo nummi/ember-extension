@@ -47,11 +47,12 @@ export default EmberObject.extend({
       let parent = this.get('parent');
       let showNodeInHierarchy =
         parent && parent.get('expanded') && parent.get('visible');
-      if (this.get('activeSearch')) {
-        return this.get('searchMatched') || showNodeInHierarchy;
-      } else {
-        return !parent || showNodeInHierarchy;
-      }
+      return !parent || showNodeInHierarchy;
+      // if (this.get('activeSearch')) {
+      //   return this.get('searchMatched') || showNodeInHierarchy;
+      // } else {
+      //   return !parent || showNodeInHierarchy;
+      // }
     }
   ),
 });

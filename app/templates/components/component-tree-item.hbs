@@ -13,9 +13,9 @@
   {{/if}}
 
   <code
-    class="component-tree-item__tag {{if item.view.isComponent "component-tree-item__bracket"}}"
+    class="component-tree-item__tag {{if (eq currentHighlightedObjectId objectId) "component-tree-item__tag--current-highlight"}} {{if item.view.isComponent "component-tree-item__bracket"}}"
   >
-    {{item.view.name}}
+    {{highlight searchValue item.view.name}}
   </code>
 
   {{#if item.view.isComponent}}

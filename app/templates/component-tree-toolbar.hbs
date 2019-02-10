@@ -41,4 +41,33 @@
   <div class="toolbar__search js-filter-views">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
+
+  {{#if searchValue}}
+    {{#if searchResults}}
+      <button
+        class="toolbar__icon-button js-search-prev"
+        {{action "previousSearchItem"}}
+      >
+        {{svg-jar "arrow-back" width="12px" height="12px"}}
+      </button>
+
+      <button
+        class="toolbar__icon-button js-search-prev"
+        {{action "nextSearchItem"}}
+      >
+        {{svg-jar "arrow-forward" width="12px" height="12px"}}
+      </button>
+      <span>
+        <code class="js-search-highlight-index">
+          {{sum searchResultsIndex 1}}
+        </code>
+        /
+        <code class="js-search-count">
+          {{searchResults.length}}
+        </code>
+      </span>
+    {{else}}
+      no results
+    {{/if}}
+  {{/if}}
 </div>

@@ -10,10 +10,12 @@
     >
       {{component-tree-item
         item=item
+        currentHighlightedObjectId=currentHighlightedObjectId
         pinnedObjectId=pinnedObjectId
         toggleExpanded=(action "toggleExpanded" item)
         inspect=(action "inspect")
         inspectElement=(action "inspectElement")
+        searchValue=searchValue
         scrollToElement=(action "scrollToElement")
         sendObjectToConsole=(action "sendObjectToConsole")
       }}

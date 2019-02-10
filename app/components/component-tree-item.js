@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
+import idFromView from 'ember-inspector/libs/id-from-view';
 
 export default Component.extend({
   item: null,
@@ -14,5 +15,9 @@ export default Component.extend({
 
   hasElement: computed('item', function() {
     return this.get('item.view.tagName') !== '';
+  }),
+
+  objectId: computed('item', function() {
+    return idFromView(this.get('item'));
   })
 });

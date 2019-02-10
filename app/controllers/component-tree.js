@@ -1,23 +1,13 @@
-import {
-  get,
-  computed
-} from '@ember/object';
-import Controller, {
-  inject as controller
-} from '@ember/controller';
-import searchMatch from 'ember-inspector/utils/search-match';
-import {
-  notEmpty
-} from '@ember/object/computed';
-import {
-  isEmpty
-} from '@ember/utils';
+import { get, computed, observer } from "@ember/object";
+import Controller, { inject as controller } from "@ember/controller";
+import searchMatch from "ember-inspector/utils/search-match";
+import idFromView from "ember-inspector/libs/id-from-view";
+import { notEmpty } from "@ember/object/computed";
+import { isEmpty } from "@ember/utils";
 
-import {
-  schedule
-} from '@ember/runloop';
+import { schedule } from "@ember/runloop";
 
-import ComponentViewItem from 'ember-inspector/models/component-view-item';
+import ComponentViewItem from "ember-inspector/models/component-view-item";
 
 const buildObjectIdList = function(children, list) {
   children.forEach(function(child) {
@@ -28,10 +18,6 @@ const buildObjectIdList = function(children, list) {
   });
 };
 
-const getIdFromObj = function(obj) {
-  return get(obj, 'view.objectId') || get(obj, 'view.controller.objectId') || get(obj, 'view.elementId');
-};
-
 /**
  * Takes the `viewTree` from `view-debug`'s `sendTree()` method, and recursively
  * flattens it into an array of `ComponentViewItem` objects
@@ -39,7 +25,6 @@ const getIdFromObj = function(obj) {
  * @param {*} treeNode The node in the viewTree
  * @param {ComponentViewItem} parent The parent `ComponentViewItem`
  * @param {number} parentCount The component hierarchy depth
- * @param {boolean} parentMatched Whether the parent node is initially set to display
  * @param {Array<ComponentViewItem>} list The accumulator, gets mutated in each call
  */
 const flattenSearchTree = (
@@ -47,13 +32,12 @@ const flattenSearchTree = (
   treeNode,
   parent,
   parentCount,
-  parentMatched,
   list
 ) => {
   let activeSearch = !isEmpty(searchValue);
-  let searchMatched = activeSearch ?
-    searchMatch(get(treeNode, 'value.name'), searchValue) :
-    true;
+  let searchMatched = activeSearch
+    ? searchMatch(get(treeNode, "value.name"), searchValue)
+    : true;
 
   let viewItem = ComponentViewItem.create({
     view: treeNode.value,
@@ -66,30 +50,19 @@ const flattenSearchTree = (
     children: treeNode.children
   });
 
-  // remember if there is no active search, searchMatched will be true
-  let shouldAddItem = searchMatched || parentMatched;
-  if (shouldAddItem) {
-    list.push(viewItem);
-  }
+  list.push(viewItem);
 
-  let newParentCount = shouldAddItem ? parentCount + 1 : 0;
+  let newParentCount = parentCount + 1;
 
   treeNode.children.forEach(child => {
-    flattenSearchTree(
-      searchValue,
-      child,
-      viewItem,
-      newParentCount,
-      shouldAddItem,
-      list
-    );
+    flattenSearchTree(searchValue, child, viewItem, newParentCount, list);
   });
   return list;
 };
 
 export default Controller.extend({
   application: controller(),
-  queryParams: ['pinnedObjectId'],
+  queryParams: ["pinnedObjectId"],
 
   /**
    * The entry in the component tree corresponding to the pinnedObjectId
@@ -107,9 +80,63 @@ export default Controller.extend({
    * @type {String}
    * @default ''
    */
-  searchValue: '',
+  searchValue: "",
 
-  activeSearch: notEmpty('searchValue'),
+  activeSearch: notEmpty("searchValue"),
+
+  searchResults: computed("viewArray.[]", "searchValue", function() {
+    const search = this.get("searchValue");
+    if (isEmpty(search)) {
+      return [];
+    }
+
+    return this.get("viewArray").filter(function(item) {
+      return item.view.name.match(search);
+    });
+  }),
+
+  /**
+   * Index of currently highlighted item in searchResults
+   *
+   * @property searchResultsIndex
+   * @type {Number}
+   * @default 0
+   */
+  searchResultsIndex: 0,
+  resetIndexOnSearch: observer(
+    "searchValue",
+    "currentHighlightedObjectId",
+    function() {
+      if (this.get("currentHighlightedObjectId")) {
+        return;
+      }
+      /*
+      if currentHighlightedObjectId in searchResults, bounce
+    */
+      this.set("searchResultsIndex", 0);
+    }
+  ),
+
+  currentHighlightedObjectId: computed(
+    "searchResultsIndex",
+    "searchResults.[]",
+    function() {
+      if (!this.get("searchResults").length) {
+        return null;
+      }
+      return idFromView(
+        this.get("searchResults")[this.get("searchResultsIndex")]
+      );
+    }
+  ),
+
+  scroll: observer("currentHighlightedObjectId", function() {
+    const id = this.get("currentHighlightedObjectId");
+    if (id) {
+      this.expandToNode(id);
+      this.scrollTreeToItem(id);
+    }
+  }),
 
   /**
    * The final list that the `{{vertical-collection}}` renders
@@ -126,41 +153,70 @@ export default Controller.extend({
    * interest of clarity rather than performance (even if the extra CPs might avoid doing some extra
    * work when users expand/contract tree nodes)
    */
-  displayedList: computed('filteredArray.@each.visible', function() {
-    return this.get('filteredArray').filterBy('visible');
+  displayedList: computed("filteredArray.@each.visible", function() {
+    return this.get("filteredArray").filterBy("visible");
   }),
 
-  filteredArray: computed('viewArray.[]', function() {
-    let viewArray = this.get('viewArray');
-    let expandedStateCache = this.get('expandedStateCache');
+  filteredArray: computed("viewArray.[]", function() {
+    let viewArray = this.get("viewArray");
+    let expandedStateCache = this.get("expandedStateCache");
     viewArray.forEach(viewItem => {
-      let cachedExpansion = expandedStateCache[getIdFromObj(viewItem)];
+      let cachedExpansion = expandedStateCache[idFromView(viewItem)];
       if (cachedExpansion !== undefined) {
-        viewItem.set('expanded', cachedExpansion);
+        viewItem.set("expanded", cachedExpansion);
       } else {
-        expandedStateCache[getIdFromObj(viewItem)] = viewItem.expanded;
+        expandedStateCache[idFromView(viewItem)] = viewItem.expanded;
       }
     });
 
     return viewArray;
   }),
 
-  viewArray: computed('viewTree', 'searchValue', function() {
-    let tree = this.get('viewTree');
+  viewArray: computed("viewTree", "searchValue", function() {
+    let tree = this.get("viewTree");
     if (!tree) {
       return [];
     }
-    return flattenSearchTree(this.get('searchValue'), tree, null, 0, false, []);
+    return flattenSearchTree(this.get("searchValue"), tree, null, 0, []);
   }),
 
   expandedStateCache: null, //set on init
 
   init() {
     this._super(...arguments);
-    this.set('expandedStateCache', {});
+    this.set("expandedStateCache", {});
     this.options = {
       components: true
     };
+  },
+
+  stepHighlightedItem(direction = "next") {
+    const currentId = this.get("currentHighlightedObjectId");
+    const searchResults = this.get("searchResults");
+
+    const index = searchResults
+      .map(function(r) {
+        return idFromView(r);
+      })
+      .indexOf(currentId);
+    const endOfList = index === searchResults.length - 1;
+    const startOfList = index === 0;
+
+    let nextIndex = index + 1;
+
+    if (index === -1) {
+      nextIndex = 0;
+    } else if (direction === "next" && endOfList) {
+      nextIndex = 0;
+    } else if (direction === "next" && !endOfList) {
+      nextIndex = index + 1;
+    } else if (direction === "prev" && startOfList) {
+      nextIndex = searchResults.length - 1;
+    } else if (direction === "prev" && !startOfList) {
+      nextIndex = index - 1;
+    }
+
+    this.set("searchResultsIndex", nextIndex);
   },
 
   /**
@@ -169,7 +225,9 @@ export default Controller.extend({
    * @param {*} objectId The id of the ember view to show
    */
   expandToNode(objectId) {
-    let node = this.get('filteredArray').find(item => item.get('id') === objectId);
+    let node = this.get("filteredArray").find(
+      item => item.get("id") === objectId
+    );
     if (node) {
       node.expandParents();
     }
@@ -182,7 +240,9 @@ export default Controller.extend({
    * of the virtual scroll.
    */
   scrollTreeToItem(objectId) {
-    let selectedItemIndex = this.get('displayedList').findIndex(item => item.view.objectId === objectId);
+    let selectedItemIndex = this.get("displayedList").findIndex(
+      item => item.view.objectId === objectId
+    );
 
     if (!selectedItemIndex) {
       return;
@@ -190,13 +250,16 @@ export default Controller.extend({
 
     const averageItemHeight = 25;
     const targetScrollTop = averageItemHeight * selectedItemIndex;
-    const componentTreeEl = document.querySelector('.js-component-tree');
+    const componentTreeEl = document.querySelector(".js-component-tree");
     const height = componentTreeEl.offsetHeight;
 
     // Only scroll to item if not already in view
-    if (targetScrollTop < componentTreeEl.scrollTop || targetScrollTop > componentTreeEl.scrollTop + height) {
-      schedule('afterRender', () => {
-        componentTreeEl.scrollTop = targetScrollTop - (height / 2);
+    if (
+      targetScrollTop < componentTreeEl.scrollTop ||
+      targetScrollTop > componentTreeEl.scrollTop + height
+    ) {
+      schedule("afterRender", () => {
+        componentTreeEl.scrollTop = targetScrollTop - height / 2;
       });
     }
   },
@@ -206,10 +269,10 @@ export default Controller.extend({
    * @param {boolean} state expanded state for objects
    */
   setExpandedStateForObjects(objects, state) {
-    this.get('filteredArray').forEach((item) => {
-      const id = getIdFromObj(item);
+    this.get("filteredArray").forEach(item => {
+      const id = idFromView(item);
       if (objects.includes(id)) {
-        item.set('expanded', state);
+        item.set("expanded", state);
         this.expandedStateCache[id] = state;
       }
     });
@@ -220,9 +283,9 @@ export default Controller.extend({
    * @param {ComponentViewItem} item
    */
   toggleWithChildren(item) {
-    const newState = !item.get('expanded');
+    const newState = !item.get("expanded");
     const list = [];
-    const clickedId = getIdFromObj(item);
+    const clickedId = idFromView(item);
 
     list.push(clickedId);
     buildObjectIdList(item.children, list);
@@ -230,17 +293,16 @@ export default Controller.extend({
   },
 
   actions: {
-    previewLayer(
-      {
-        view: {
-          objectId,
-          elementId,
-          renderNodeId
-        }
-      }) {
+    nextSearchItem() {
+      this.stepHighlightedItem("next");
+    },
+    previousSearchItem() {
+      this.stepHighlightedItem("prev");
+    },
+    previewLayer({ view: { objectId, elementId, renderNodeId } }) {
       // We are passing all of objectId, elementId, and renderNodeId to support post-glimmer 1, post-glimmer 2, and root for
       // post-glimmer 2
-      this.get('port').send('view:previewLayer', {
+      this.get("port").send("view:previewLayer", {
         objectId,
         renderNodeId,
         elementId
@@ -248,17 +310,17 @@ export default Controller.extend({
     },
 
     hidePreview() {
-      this.get('port').send('view:hidePreview');
+      this.get("port").send("view:hidePreview");
     },
 
     toggleViewInspection() {
-      this.get('port').send('view:inspectViews', {
-        inspect: !this.get('inspectingViews')
+      this.get("port").send("view:inspectViews", {
+        inspect: !this.get("inspectingViews")
       });
     },
 
     sendObjectToConsole(objectId) {
-      this.get('port').send('objectInspector:sendToConsole', {
+      this.get("port").send("objectInspector:sendToConsole", {
         objectId
       });
     },
@@ -269,9 +331,9 @@ export default Controller.extend({
      */
     expandOrCollapseAll(expanded) {
       this.expandedStateCache = {};
-      this.get('filteredArray').forEach((item) => {
-        item.set('expanded', expanded);
-        this.expandedStateCache[getIdFromObj(item)] = expanded;
+      this.get("filteredArray").forEach(item => {
+        item.set("expanded", expanded);
+        this.expandedStateCache[idFromView(item)] = expanded;
       });
     },
 
@@ -279,17 +341,17 @@ export default Controller.extend({
       if (toggleChildren) {
         this.toggleWithChildren(item);
       } else {
-        item.toggleProperty('expanded');
-        this.expandedStateCache[getIdFromObj(item)] = item.get('expanded');
+        item.toggleProperty("expanded");
+        this.expandedStateCache[idFromView(item)] = item.get("expanded");
       }
     },
 
     inspect(objectId) {
       if (objectId) {
-        this.set('pinnedObjectId', objectId);
+        this.set("pinnedObjectId", objectId);
         this.expandToNode(objectId);
         this.scrollTreeToItem(objectId);
-        this.get('port').send('objectInspector:inspectById', {
+        this.get("port").send("objectInspector:inspectById", {
           objectId
         });
       }
@@ -299,20 +361,20 @@ export default Controller.extend({
      * Scrolls the main page to put the selected element into view
      */
     scrollToElement(elementId) {
-      this.get('port').send('view:scrollToElement', {
+      this.get("port").send("view:scrollToElement", {
         elementId
       });
     },
 
     inspectElement(item) {
       let elementId;
-      let objectId = item.get('view.objectId');
+      let objectId = item.get("view.objectId");
 
       if (!objectId) {
-        elementId = item.get('view.elementId');
+        elementId = item.get("view.elementId");
       }
       if (objectId || elementId) {
-        this.get('port').send('view:inspectElement', {
+        this.get("port").send("view:inspectElement", {
           objectId,
           elementId
         });
