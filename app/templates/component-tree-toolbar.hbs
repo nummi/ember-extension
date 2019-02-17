@@ -58,13 +58,9 @@
         {{svg-jar "arrow-forward" width="12px" height="12px"}}
       </button>
       <span>
-        <code class="js-search-highlight-index">
-          {{sum searchResultsIndex 1}}
-        </code>
-        /
-        <code class="js-search-count">
-          {{searchResults.length}}
-        </code>
+        <code class="js-search-highlight-index">{{sum searchResultsIndex 1}}</code>
+        <span>/</span>
+        <code class="js-search-count">{{searchResults.length}}</code>
       </span>
     {{else}}
       no results

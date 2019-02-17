@@ -12,9 +12,7 @@
     }}
   {{/if}}
 
-  <code
-    class="component-tree-item__tag {{if (eq currentHighlightedObjectId objectId) "component-tree-item__tag--current-highlight"}} {{if item.view.isComponent "component-tree-item__bracket"}}"
-  >
+  <code class={{tagNameClass}}>
     {{highlight searchValue item.view.name}}
   </code>
 

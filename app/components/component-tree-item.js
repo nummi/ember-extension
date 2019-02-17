@@ -19,5 +19,11 @@ export default Component.extend({
 
   objectId: computed('item', function() {
     return idFromView(this.get('item'));
+  }),
+
+  tagNameClass: computed('currentHighlightedObjectId', 'objectId', 'item.view.isComponent', function() {
+    const highlight = this.get('currentHighlightedObjectId') === this.get('objectId') ? 'component-tree-item__tag--current-highlight' : '';
+    const bracketType = this.get('item.view.isComponent') ? 'component-tree-item__bracket' : '';
+    return `component-tree-item__tag ${highlight} ${bracketType}`;
   })
 });
