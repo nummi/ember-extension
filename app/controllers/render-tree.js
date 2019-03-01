@@ -64,6 +64,14 @@ export default Controller.extend({
      */
     closeWarning() {
       this.set('isWarningClosed', true);
+    },
+
+    clear() {
+      this.send('clearProfiles');
+    },
+
+    refresh() {
+      this.send('refreshPage');
     }
   },
 

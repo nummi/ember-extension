@@ -48,7 +48,13 @@ export default Controller.extend({
         return true;
       }
     });
-  })
+  }),
+
+  actions: {
+    refresh() {
+      this.send('reload');
+    }
+  }
 });
 
 /**

@@ -4,6 +4,10 @@ export default Controller.extend({
   actions: {
     sendContainerToConsole() {
       this.get('port').send('objectInspector:sendContainerToConsole');
+    },
+
+    refresh() {
+      this.send('reload');
     }
   }
 });

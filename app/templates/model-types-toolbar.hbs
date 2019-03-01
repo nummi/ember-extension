@@ -1,10 +1,10 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   {{ui/toolbar-reload-button
-    action="reload"
-    classNames="toolbar__icon-button js-reload-container-btn"
+    onclick=(action "refresh")
+    classNames="js-reload-container-btn"
   }}
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   <div class="toolbar__checkbox js-filter-hide-empty-model-types">
     <label for="options-hideEmptyModelTypes">
@@ -26,4 +26,4 @@
       Order Models By Record Count
     </label>
   </div>
-</div>
+{{/ui/toolbar-x}}

@@ -1,18 +1,18 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   {{ui/toolbar-reload-button
-    action="reload"
-    classNames="toolbar__icon-button js-reload-container-btn"
+    onclick=(action "refresh")
+    classNames="js-reload-container-btn"
   }}
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   {{ui/send-to-console action=(action "sendContainerToConsole")}}
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   <div
     class="toolbar__search js-container-instance-search"
   >
     {{ui/toolbar-search-field value=searchValue}}
   </div>
-</div>
+{{/ui/toolbar-x}}

@@ -1,4 +1,4 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   <div class="toolbar__checkbox js-filter-hide-routes">
     <label for="options-hideRoutes">
       {{input
@@ -21,9 +21,9 @@
     </label>
   </div>
 
-  <div class="divider"></div>
+  {{bar.divider}}
 
   <div class="toolbar__search js-filter-views">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
-</div>
+{{/ui/toolbar-x}}

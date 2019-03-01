@@ -1,12 +1,12 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   {{ui/toolbar-clear-button
-    action="clear"
-    classNames="toolbar__icon-button js-clear-deprecations-btn"
+    onclick=(action "clearAll")
+    classNames="js-clear-deprecations-btn"
   }}
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   <div class="toolbar__search js-deprecations-search">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
-</div>
+{{/ui/toolbar-x}}

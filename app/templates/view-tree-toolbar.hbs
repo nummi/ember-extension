@@ -1,4 +1,4 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   <button
     class="{{if inspectingViews "active"}} toolbar__icon-button js-inspect-views"
     {{action "toggleViewInspection"}}
@@ -10,7 +10,7 @@
     }}
   </button>
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   <div class="toolbar__checkbox js-filter-components">
     <label for="options-components">
@@ -23,9 +23,9 @@
     </label>
   </div>
 
-  <div class="divider"></div>
+  {{bar.divider}}
 
   <div class="toolbar__search js-filter-views">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
-</div>
+{{/ui/toolbar-x}}

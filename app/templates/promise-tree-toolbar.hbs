@@ -1,38 +1,26 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   {{ui/toolbar-clear-button
-    action="clear"
-    classNames="toolbar__icon-button js-clear-promises-btn"
+    onclick=(action "clear")
+    classNames="js-clear-promises-btn"
   }}
 
   {{! if should refresh the refresh button will be in the middle of the of the tab }}
   {{#unless shouldRefresh}}
-    <div
-      class="divider"
-      aria-hidden="true"
-    >
+    {{bar.divider}}
 
-    </div>
     {{ui/toolbar-reload-button
-      action="refreshPage"
-      classNames="toolbar__icon-button js-toolbar-page-refresh-btn"
+      onclick=(action "refresh")
+      classNames="js-toolbar-page-refresh-btn"
     }}
   {{/unless}}
 
-  <div
-    class="divider"
-    aria-hidden="true"
-  >
-  </div>
+  {{bar.divider}}
 
   <div class="toolbar__search js-promise-search">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
 
-  <div
-    class="divider"
-    aria-hidden="true"
-  >
-  </div>
+  {{bar.divider}}
 
   <button
     class="{{if noFilter "active"}} toolbar__radio toolbar__radio--first js-filter"
@@ -60,7 +48,7 @@
     Fulfilled
   </button>
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   <div class="toolbar__checkbox js-with-stack">
     <label for="instrument-with-stack">
@@ -72,4 +60,4 @@
       Trace promises
     </label>
   </div>
-</div>
+{{/ui/toolbar-x}}

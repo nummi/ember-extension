@@ -95,6 +95,9 @@ export default Controller.extend({
       this.set('createdAfter', new Date());
       once(this, this.notifyChange);
     },
+    refresh() {
+      this.send('refreshPage');
+    },
     tracePromise(promise) {
       this.get('port').send('promise:tracePromise', { promiseId: promise.get('guid') });
     },

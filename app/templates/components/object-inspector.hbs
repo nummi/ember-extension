@@ -1,6 +1,6 @@
 {{#if model.length}}
   <div class="split__panel__hd">
-    <div class="toolbar">
+    {{#ui/toolbar-x as |bar|}}
       <button
         class="toolbar__icon-button {{if isNested "enabled" "disabled"}} js-object-inspector-back"
         {{action "popStack"}}
@@ -8,7 +8,7 @@
         {{svg-jar "arrow-back" width="21px" height="21px"}}
       </button>
 
-      <div class="divider" aria-hidden="true"></div>
+      {{bar.divider}}
 
       <code class="object-inspector-object-name js-object-name">{{model.firstObject.name}}</code>
 
@@ -19,7 +19,7 @@
       >
         {{svg-jar "send-with-text" width="20px" height="10px"}}
       </button>
-    </div>
+    {{/ui/toolbar-x}}
 
     {{#if trail}}
       <code class="object-trail js-object-trail">{{trail}}</code>

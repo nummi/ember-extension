@@ -44,8 +44,13 @@ export default Controller.extend({
       }
       this.get('port').send('objectInspector:inspectByContainerLookup', { name: get(obj, 'fullName') });
     },
+
     sendContainerToConsole() {
       this.get('port').send('objectInspector:sendContainerToConsole');
+    },
+
+    refresh() {
+      this.send('reload');
     }
   }
 });

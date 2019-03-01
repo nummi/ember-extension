@@ -5,5 +5,11 @@ export default Controller.extend({
   application: controller(),
 
   sortProperties: ['name'],
-  sorted: sort('model', 'sortProperties')
+  sorted: sort('model', 'sortProperties'),
+
+  actions: {
+    refresh() {
+      this.send('reload');
+    }
+  }
 });

@@ -1,9 +1,9 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   <div class="toolbar__search js-records-search">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
 
-  <div class="divider" aria-hidden="true"></div>
+  {{bar.divider}}
 
   <button
     class="{{if noFilterValue "active"}} toolbar__radio js-filter"
@@ -26,4 +26,4 @@
       </button>
     {{/record-filter}}
   {{/each}}
-</div>
+{{/ui/toolbar-x}}

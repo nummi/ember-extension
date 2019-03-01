@@ -14,6 +14,11 @@ $red: #ff2717;
     border-right: 1px solid var(--base04);
   }
 
+  th:last-child,
+  td:last-child {
+    border-right: none;
+  }
+
   th {
     background: var(--base00);
     border-bottom: 1px solid var(--base05);

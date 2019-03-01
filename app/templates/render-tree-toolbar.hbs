@@ -1,28 +1,20 @@
-<div class="toolbar">
+{{#ui/toolbar-x as |bar|}}
   {{ui/toolbar-clear-button
-    action="clearProfiles"
-    classNames="toolbar__icon-button"
+    onclick=(action "clear")
   }}
 
   {{#unless showEmpty}}
-    <div
-      class="divider"
-      aria-hidden="true"
-    >
-    </div>
+    {{bar.divider}}
+
     {{ui/toolbar-reload-button
-      action="refreshPage"
-      classNames="toolbar__icon-button js-toolbar-page-refresh-btn"
+      onclick=(action "refresh")
+      classNames="js-toolbar-page-refresh-btn"
     }}
   {{/unless}}
 
-  <div
-    class="divider"
-    aria-hidden="true"
-  >
-  </div>
+  {{bar.divider}}
 
   <div class="toolbar__search js-render-profiles-search">
     {{ui/toolbar-search-field value=searchValue}}
   </div>
-</div>
+{{/ui/toolbar-x}}
