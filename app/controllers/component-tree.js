@@ -191,6 +191,7 @@ export default Controller.extend({
     const averageItemHeight = 25;
     const targetScrollTop = averageItemHeight * selectedItemIndex;
     const componentTreeEl = document.querySelector('.js-component-tree');
+    if (!componentTreeEl) { return; }
     const height = componentTreeEl.offsetHeight;
 
     // Only scroll to item if not already in view

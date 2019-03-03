@@ -1,0 +1,27 @@
+{{#if this.items}}
+  {{#each this.visibleItems key="index" as |item|}}
+    {{item}}
+  {{/each}}
+
+  {{#if this.hiddenItems}}
+    {{ui/toolbar-icon-button
+      onclick=(action "toggleMore")
+      svgName="ellipsis"
+      title="More"
+    }}
+  {{/if}}
+
+  <div class="toolbar__cloned-content">
+    {{#each this.items key="index" as |item|}}
+      {{item}}
+    {{/each}}
+  </div>
+{{/if}}
+
+{{yield 
+  (hash
+    divider=(component "ui/toolbar-divider")
+    iconButton=(component "ui/toolbar-icon-button")
+    searchField=(component "ui/toolbar-search-field")
+  )
+}}

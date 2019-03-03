@@ -17,14 +17,16 @@
     </div>
   {{/draggable-column}}
 
-  <div class="split__panel">
+  <div class="split__panel" style="overflow: hidden">
     <div class="split__panel__hd">
-      {{outlet "toolbar"}}
-      {{ui/sidebar-toggle
-        action="toggleInspector"
-        isExpanded=inspectorExpanded
-        classNames="toolbar__icon-button"
-      }}
+      <div class="toolbar">
+        {{outlet "toolbar"}}
+        {{ui/sidebar-toggle
+          action="toggleInspector"
+          isExpanded=inspectorExpanded
+          classNames="toolbar__icon-button"
+        }}
+      </div>
     </div>
 
     {{#main-content class="split__panel__bd"}}

@@ -1,12 +1,12 @@
-{{#ui/toolbar-x as |bar|}}
+{{#ui/toolbar-content as |bar|}}
   <button
     class="{{if inspectingViews "active"}} toolbar__icon-button js-inspect-views"
     {{action "toggleViewInspection"}}
   >
     {{svg-jar
-      "inspect"
+      "toolbar-inspect"
       width="16px"
-      height="17px"
+      height="16px"
     }}
   </button>
 
@@ -25,7 +25,8 @@
 
   {{bar.divider}}
 
-  <div class="toolbar__search js-filter-views">
-    {{ui/toolbar-search-field value=searchValue}}
-  </div>
-{{/ui/toolbar-x}}
+  {{bar.searchField
+    class="js-filter-views"
+    value=searchValue
+  }}
+{{/ui/toolbar-content}}

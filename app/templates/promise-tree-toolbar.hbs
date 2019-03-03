@@ -1,24 +1,29 @@
-{{#ui/toolbar-x as |bar|}}
-  {{ui/toolbar-clear-button
-    onclick=(action "clear")
+{{#ui/toolbar-content as |bar|}}
+  {{ui/toolbar-icon-button
     classNames="js-clear-promises-btn"
+    onclick=(action "clear")
+    svgName="toolbar-clear-2"
+    title="Clear"
   }}
 
   {{! if should refresh the refresh button will be in the middle of the of the tab }}
   {{#unless shouldRefresh}}
     {{bar.divider}}
 
-    {{ui/toolbar-reload-button
-      onclick=(action "refresh")
+    {{ui/toolbar-icon-button
       classNames="js-toolbar-page-refresh-btn"
+      onclick=(action "refresh")
+      svgName="toolbar-reload"
+      title="Reload"
     }}
   {{/unless}}
 
   {{bar.divider}}
 
-  <div class="toolbar__search js-promise-search">
-    {{ui/toolbar-search-field value=searchValue}}
-  </div>
+  {{bar.searchField
+    class="js-promise-search"
+    value=searchValue
+  }}
 
   {{bar.divider}}
 
@@ -60,4 +65,4 @@
       Trace promises
     </label>
   </div>
-{{/ui/toolbar-x}}
+{{/ui/toolbar-content}}

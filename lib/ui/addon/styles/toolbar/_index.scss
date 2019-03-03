@@ -3,14 +3,37 @@
 }
 
 .toolbar {
+  display: flex;
+
+  & > .toolbar-content {
+    flex-grow: 1;
+  }
+
+  & > .toolbar__icon-button {
+    flex-shrink: 0;
+  }
+}
+
+.toolbar__cloned-content,
+.toolbar-content {
+  overflow: hidden;
   align-items: center;
   display: flex;
   flex-direction: row;
   min-height: var(--toolbar-height);
 }
 
-.toolbar > * {
+.toolbar__cloned-content > *,
+.toolbar-content > * {
   flex: none;
+}
+
+.toolbar__cloned-content {
+  width: 100%;
+  position: absolute;
+  top: -1000px;
+  right: 0;
+  left: 0;
 }
 
 .toolbar .send-to-console {

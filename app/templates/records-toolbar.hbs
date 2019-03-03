@@ -1,7 +1,8 @@
-{{#ui/toolbar-x as |bar|}}
-  <div class="toolbar__search js-records-search">
-    {{ui/toolbar-search-field value=searchValue}}
-  </div>
+{{#ui/toolbar-content as |bar|}}
+  {{bar.searchField
+    class="js-records-search"
+    value=searchValue
+  }}
 
   {{bar.divider}}
 
@@ -26,4 +27,4 @@
       </button>
     {{/record-filter}}
   {{/each}}
-{{/ui/toolbar-x}}
+{{/ui/toolbar-content}}

@@ -1,44 +1,27 @@
-{{#ui/toolbar-x as |bar|}}
-  <button
-    class="{{if inspectingViews "active"}} toolbar__icon-button js-inspect-views"
-    {{action "toggleViewInspection"}}
-  >
-    {{svg-jar
-      "inspect"
-      width="16px"
-      height="17px"
-    }}
-  </button>
-
-  {{bar.divider}}
-
-  <button
-    class="toolbar__icon-button"
-    title="expand all"
-    {{action "expandOrCollapseAll" true}}
-  >
-    {{svg-jar
-      "chevron-down"
-      width="16px"
-      height="16px"
-    }}
-  </button>
-
-  <button
-    class="toolbar__icon-button"
-    title="collapse all"
-    {{action "expandOrCollapseAll" false}}
-  >
-    {{svg-jar
-      "chevron-right"
-      width="16px"
-      height="16px"
-    }}
-  </button>
-
-  {{bar.divider}}
-
-  <div class="toolbar__search js-filter-views">
-    {{ui/toolbar-search-field value=searchValue}}
-  </div>
-{{/ui/toolbar-x}}
+{{ui/toolbar-content
+  items=(array
+    (component "ui/toolbar-icon-button"
+      active=inspectingViews
+      class="js-inspect-views"
+      onclick=(action "toggleViewInspection")
+      svgName="toolbar-inspect"
+      title="Inspect"
+    )
+    (component "ui/toolbar-divider")
+    (component "ui/toolbar-icon-button"
+      onclick=(action "expandOrCollapseAll" true)
+      svgName="toolbar-chevron-down"
+      title="expand all"
+    )
+    (component "ui/toolbar-icon-button"
+      onclick=(action "expandOrCollapseAll" false)
+      svgName="toolbar-chevron-right"
+      title="collapse all"
+    )
+    (component "ui/toolbar-divider")
+    (component "ui/toolbar-search-field"
+      class="js-filter-views"
+      value=searchValue
+    )
+  )
+}}

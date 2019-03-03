@@ -1,20 +1,25 @@
-{{#ui/toolbar-x as |bar|}}
-  {{ui/toolbar-clear-button
+{{#ui/toolbar-content as |bar|}}
+  {{ui/toolbar-icon-button
     onclick=(action "clear")
+    svgName="toolbar-clear-2"
+    title="Clear"
   }}
 
   {{#unless showEmpty}}
     {{bar.divider}}
 
-    {{ui/toolbar-reload-button
-      onclick=(action "refresh")
+    {{ui/toolbar-icon-button
       classNames="js-toolbar-page-refresh-btn"
+      onclick=(action "refresh")
+      svgName="toolbar-reload"
+      title="Reload"
     }}
   {{/unless}}
 
   {{bar.divider}}
 
-  <div class="toolbar__search js-render-profiles-search">
-    {{ui/toolbar-search-field value=searchValue}}
-  </div>
-{{/ui/toolbar-x}}
+  {{bar.searchField
+    class="js-render-profiles-search"
+    value=searchValue
+  }}
+{{/ui/toolbar-content}}

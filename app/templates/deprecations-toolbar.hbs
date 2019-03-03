@@ -1,12 +1,15 @@
-{{#ui/toolbar-x as |bar|}}
-  {{ui/toolbar-clear-button
-    onclick=(action "clearAll")
+{{#ui/toolbar-content as |bar|}}
+  {{ui/toolbar-icon-button
     classNames="js-clear-deprecations-btn"
+    onclick=(action "clearAll")
+    svgName="toolbar-clear-2"
+    title="Clear"
   }}
 
   {{bar.divider}}
 
-  <div class="toolbar__search js-deprecations-search">
-    {{ui/toolbar-search-field value=searchValue}}
-  </div>
-{{/ui/toolbar-x}}
+  {{bar.searchField
+    class="js-deprecations-search"
+    value=searchValue
+  }}
+{{/ui/toolbar-content}}

@@ -1,7 +1,9 @@
-{{#ui/toolbar-x as |bar|}}
-  {{ui/toolbar-reload-button
-    onclick=(action "refresh")
+{{#ui/toolbar-content as |bar|}}
+  {{ui/toolbar-icon-button
     classNames="js-reload-container-btn"
+    onclick=(action "refresh")
+    svgName="toolbar-reload"
+    title="Reload"
   }}
 
   {{bar.divider}}
@@ -26,4 +28,4 @@
       Order Models By Record Count
     </label>
   </div>
-{{/ui/toolbar-x}}
+{{/ui/toolbar-content}}

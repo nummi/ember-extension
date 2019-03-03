@@ -4,8 +4,7 @@
   padding-right: 6px; // .toolbar__icon-button override
 
   /*
-    Absolute positioning used because this button is not
-    a child of .toolbar
+    Absolute positioning used to keep the button on top
   */
   position: absolute;
   right: 0;

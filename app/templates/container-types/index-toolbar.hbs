@@ -1,7 +1,9 @@
-{{#ui/toolbar-x as |bar|}}
-  {{ui/toolbar-reload-button
-    onclick=(action "refresh")
+{{#ui/toolbar-content as |bar|}}
+  {{ui/toolbar-icon-button
     classNames="js-reload-container-btn"
+    onclick=(action "refresh")
+    svgName="toolbar-reload"
+    title="Reload"
   }}
 
   {{bar.divider}}
@@ -9,4 +11,4 @@
   {{ui/send-to-console
     action=(action "sendContainerToConsole")
   }}
-{{/ui/toolbar-x}}
+{{/ui/toolbar-content}}
