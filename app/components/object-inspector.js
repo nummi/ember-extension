@@ -3,15 +3,6 @@ import { computed, get } from '@ember/object';
 export default Component.extend({
   tagName: '',
 
-  /**
-   * Application Controller passed
-   * through the template
-   *
-   * @property application
-   * @type {Controller}
-   */
-  application: null,
-
   propDisplayType: 'grouped',
 
   trail: computed('model.[]', function () {
@@ -27,7 +18,7 @@ export default Component.extend({
   actions: {
     popStack() {
       if (this.get('isNested')) {
-        this.get('application').popMixinDetails();
+        this.popMixinDetails();
       }
     },
 

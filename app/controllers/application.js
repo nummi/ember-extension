@@ -102,6 +102,10 @@ export default Controller.extend({
       schedule('afterRender', () => {
         this.get('layoutService').trigger('resize', { source: 'object-inspector' });
       });
+    },
+
+    popMixinDetails() {
+      this.popMixinDetails();
     }
   }
 });
