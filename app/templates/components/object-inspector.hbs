@@ -42,6 +42,10 @@
       </button>
     </div>
 
+    {{#if mixinDetails.errors.length}}
+      <ObjectInspector::Error @traceErrors={{action "traceErrors"}} @errors={{mixinDetails.errors}} />
+    {{/if}}
+
     {{mixin-details model=mixinDetails displayType=propDisplayType}}
   </div>
 {{else}}

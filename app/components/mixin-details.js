@@ -11,9 +11,9 @@ export default Component.extend({
    */
   sortedAllProperties: sort('allProperties', 'sortProperties'),
 
-  allProperties: computed('model', function() {
-    const props = this.get('model.mixins').map(function(mixin) {
-      return mixin.properties.filter(function(p) {
+  allProperties: computed('model', function () {
+    const props = this.get('model.mixins').map(function (mixin) {
+      return mixin.properties.filter(function (p) {
         return !p.hasOwnProperty('overridden');
       });
     });
@@ -31,13 +31,5 @@ export default Component.extend({
      * @type {Array<String>}
      */
     this.sortProperties = ['name'];
-  },
-
-  actions: {
-    traceErrors() {
-      this.get('port').send('objectInspector:traceErrors', {
-        objectId: this.get('model.objectId')
-      });
-    }
   }
 });
