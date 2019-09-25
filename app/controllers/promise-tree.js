@@ -23,7 +23,7 @@ export default Controller.extend({
 
   /* jscs:disable validateIndentation */
   filtered: filter(
-    'model.@each.{createdAt,fulfilledBranch,rejectedBranch,pendingBranch,isVisible}', function(item) {
+    'model.@each.{createdAt,fulfilledBranch,rejectedBranch,pendingBranch,isVisible}', ['filter'], function(item) {
 
       // exclude cleared promises
       if (this.createdAfter && item.get('createdAt') < this.createdAfter) {
@@ -109,9 +109,6 @@ export default Controller.extend({
 
   setFilter: action(function(filter) {
     this.set('filter', filter);
-    next(() => {
-      this.notifyPropertyChange('filtered');
-    });
   }),
 
   updateInstrumentWithStack: action(function(bool) {
