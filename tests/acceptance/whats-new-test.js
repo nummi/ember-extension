@@ -69,10 +69,10 @@ module('Whats New', function(outer) {
 
       await visit('/info/whats-new');
 
-      assert.dom('.whats-new h2').exists({ count: 1 }, 'correct section of markdown is rendered');
+      assert.dom('.markdown-doc h2').exists({ count: 1 }, 'correct section of markdown is rendered');
 
       assert.equal(
-        find('.whats-new h2 a').text,
+        find('.markdown-doc h2 a').text,
         'v3.3.0',
         'correct section of markdown is rendered'
       );
@@ -85,7 +85,7 @@ module('Whats New', function(outer) {
 
       await visit('/info/whats-new');
 
-      assert.dom('.whats-new p').exists({ count: 1 }, 'Changelog could not be loaded');
+      assert.dom('.markdown-doc p').exists({ count: 1 }, 'Changelog could not be loaded');
     });
   });
 
@@ -101,10 +101,10 @@ module('Whats New', function(outer) {
 
       await visit('/info/whats-new');
 
-      assert.dom('.whats-new h2').exists({ count: 1 }, 'correct section of markdown is rendered');
+      assert.dom('.markdown-doc h2').exists({ count: 1 }, 'correct section of markdown is rendered');
 
       assert.equal(
-        find('.whats-new h2 a').text,
+        find('.markdown-doc h2 a').text,
         'Unreleased',
         'correct section of markdown is rendered'
       );
@@ -117,7 +117,7 @@ module('Whats New', function(outer) {
 
       await visit('/info/whats-new');
 
-      assert.dom('.whats-new p').exists({ count: 1 }, 'Changelog could not be loaded');
+      assert.dom('.markdown-doc p').exists({ count: 1 }, 'Changelog could not be loaded');
     });
   });
 });

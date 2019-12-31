@@ -1,0 +1,16 @@
+<div class="markdown-doc">
+  <div class="analytics-banner flex items-center mb-4 px-3 rounded">
+    {{svg-jar (if this.enabled "wifi" "wifi-none") width="24" class="mr-2 fill-current"}}
+    {{#if this.enabled}}
+      Analytics are enabled — thanks for helping us improve Ember Inspector
+    {{else}}
+      Analytics are disabled
+    {{/if}}
+  </div>
+
+  <h1>Analytics</h1>
+
+  <Ui::OpenLinksInNewWindow>
+    {{markdown-to-html this.message}}
+  </Ui::OpenLinksInNewWindow>
+</div>

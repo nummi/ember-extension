@@ -1,8 +1,12 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
 let packageJson = require('../package.json');
 
 module.exports = function(environment) {
+  let analyticsStatement = fs.readFileSync(path.resolve(__dirname, '../ANALYTICS.md'), 'utf8')
+
   let ENV = {
     modulePrefix: 'ember-inspector',
     environment,
@@ -20,6 +24,9 @@ module.exports = function(environment) {
       EXTEND_PROTOTYPES: process.env.NO_EXTEND_PROTOTYPES ? false : {
         // Prevent Ember Data from overriding Date.parse.
         Date: false
+      },
+      ANALYTICS: {
+        message: analyticsStatement
       }
     },
 

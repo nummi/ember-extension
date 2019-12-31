@@ -12,6 +12,7 @@ const STORE_KEY = 'last-version-opened';
 export default Route.extend({
   version: readOnly('config.VERSION'),
   storage: service(),
+  analytics: service(),
 
   lastVersionOpened() {
     if (chromeStoreSupported) {
@@ -45,6 +46,8 @@ export default Route.extend({
   },
 
   beforeModel() {
+    this.analytics.appLaunch();
+
     let targetRoute = 'component-tree';
     const currentVersion = this.version;
 
